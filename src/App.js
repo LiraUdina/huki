@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
-function App() {
+function Prediction() {
+  const preds = [
+    'Ваши усилия и труд принесут желаемый результат.',
+    'Остерегайтесь неприятных сюрпризов.',
+    'Сфокусируйтесь на своих целях и достигнете успеха.',
+    'Сегодня хороший день для творческих начинаний.',
+    'Сегодня будет отличный день, полный позитивных событий!'
+  ];
+
+  const [pred, setPrediction] = useState('');
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const RandomPrediction = () => {
+    const randomIndex = Math.floor(Math.random() * preds.length);
+    setPrediction(preds[randomIndex]);
+    setButtonClicked(true);
+  };
+
+  useEffect(() => {
+    if (buttonClicked) {
+      document.title = `Предсказание на день: ${pred}`;
+    }
+  }, [buttonClicked, pred]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Предсказание на день</h1>
+      {buttonClicked ? (
+        <div>
+          <p>Ваше предсказание на сегодня:</p>
+          <p>{pred}</p>
+        </div>
+      ) : (
+        <button onClick={RandomPrediction}>Получить предсказание</button>
+      )}
     </div>
   );
 }
 
-export default App;
+export default Prediction;
