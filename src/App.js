@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import usePrediction from './usePrediction';
 
 function Prediction() {
-  const preds = [
+  const initialPreds = [
     'Ваши усилия и труд принесут желаемый результат.',
     'Остерегайтесь неприятных сюрпризов.',
     'Сфокусируйтесь на своих целях и достигнете успеха.',
@@ -9,20 +10,7 @@ function Prediction() {
     'Сегодня будет отличный день, полный позитивных событий!'
   ];
 
-  const [pred, setPrediction] = useState('');
-  const [buttonClicked, setButtonClicked] = useState(false);
-
-  const RandomPrediction = () => {
-    const randomIndex = Math.floor(Math.random() * preds.length);
-    setPrediction(preds[randomIndex]);
-    setButtonClicked(true);
-  };
-
-  useEffect(() => {
-    if (buttonClicked) {
-      document.title = `Предсказание на день: ${pred}`;
-    }
-  }, [buttonClicked, pred]);
+  const { prediction, buttonClicked, randomPrediction, clickCount } = usePrediction(initialPreds);
 
   return (
     <div>
@@ -30,12 +18,12 @@ function Prediction() {
       {buttonClicked ? (
         <div>
           <p>Ваше предсказание на сегодня:</p>
-          <p>{pred}</p>
+          <p>{prediction}</p>
         </div>
       ) : (
-        <button onClick={RandomPrediction}>Получить предсказание</button>
+        <button onClick={randomPrediction}>Получить предсказание</button>
       )}
-    </div>
+      </div>
   );
 }
 
